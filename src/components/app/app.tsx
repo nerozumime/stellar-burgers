@@ -18,14 +18,16 @@ import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/ingredientsReducer';
 import WithHeader from '../with-header/WithHeader';
+import { useSelector } from 'react-redux';
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  //const state = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(getIngredients());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
