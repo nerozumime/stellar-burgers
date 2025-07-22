@@ -33,5 +33,6 @@
 .logo {
   display: flex;
   align-items: center;
-  margin: 0 auto;
+  margin-right:  auto;
+  margin-left: 60px;
 }

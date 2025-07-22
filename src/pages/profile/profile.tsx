@@ -1,51 +1,53 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 
-export const Profile: FC = () => {
-  /** TODO: взять переменную из стора */
-  const user = {
-    name: '',
-    email: ''
-  };
+import { useSelector, useDispatch } from '../../services/store';
+import { updateUser } from '../../services/userSlice';
+import { IFormValue } from '@utils-types';
 
-  const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+export const Profile: FC = () => {
+  const user = useSelector((state) => state.userReducer.data);
+  const dispatch = useDispatch();
+
+  if (!user) {
+    return <div>Идёт загрузка...</div>;
+  }
+
+  const [formValue, setFormValue] = useState<IFormValue>({
+    name: user.name || '',
+    email: user.email || '',
     password: ''
   });
 
   useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
-    }));
+    setFormValue({
+      name: user.name || '',
+      email: user.email || '',
+      password: ''
+    });
   }, [user]);
 
   const isFormChanged =
-    formValue.name !== user?.name ||
-    formValue.email !== user?.email ||
-    !!formValue.password;
+    formValue.name !== user.name ||
+    formValue.email !== user.email ||
+    formValue.password !== '';
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    dispatch(updateUser(formValue));
   };
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
-    setFormValue({
-      name: user.name,
-      email: user.email,
-      password: ''
-    });
+    setFormValue({ ...user, password: '' });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFormValue((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value
     }));
-  };
+  }
 
   return (
     <ProfileUI
@@ -56,6 +58,4 @@ export const Profile: FC = () => {
       handleInputChange={handleInputChange}
     />
   );
-
-  return null;
 };

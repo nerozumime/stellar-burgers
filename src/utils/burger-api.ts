@@ -1,5 +1,5 @@
 import { setCookie, getCookie } from './cookie';
-import { TIngredient, TOrder, TOrdersData, TUser } from './types';
+import { TIngredient, TOrder, TUser } from './types';
 
 const URL = 'https://norma.nomoreparties.space/api';
 
@@ -61,7 +61,7 @@ type TIngredientsResponse = TServerResponse<{
   data: TIngredient[];
 }>;
 
-type TFeedsResponse = TServerResponse<{
+export type TFeedsResponse = TServerResponse<{
   orders: TOrder[];
   total: number;
   totalToday: number;
@@ -75,7 +75,6 @@ export const getIngredientsApi = () =>
   fetch(`${URL}/ingredients`)
     .then((res) => checkResponse<TIngredientsResponse>(res))
     .then((data) => {
-      console.log(data);
       if (data?.success) return data.data;
       return Promise.reject(data);
     });
@@ -234,3 +233,12 @@ export const logoutApi = () =>
       token: localStorage.getItem('refreshToken')
     })
   }).then((res) => checkResponse<TServerResponse<{}>>(res));
+
+export function parseOrderNumber(path: string) {
+  const arr = path.split('/');
+  let number: string = arr[arr.length - 1];
+  while (number.length < 6) {
+    number = '0' + number;
+  }
+  return number;
+}
