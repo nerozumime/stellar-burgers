@@ -1,6 +1,6 @@
 import { FC, useMemo, useEffect } from 'react';
-import { Preloader } from '../ui/preloader';
-import { OrderInfoUI } from '../ui/order-info';
+import { Preloader } from '@ui';
+import { OrderInfoUI } from '@ui';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 
