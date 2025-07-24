@@ -12,6 +12,7 @@
 .menu_part_left {
   display: flex;
   flex-basis: 35%;
+  gap: 28px;
 }
 
 .link {
@@ -33,5 +34,6 @@
 .logo {
   display: flex;
   align-items: center;
-  margin: 0 auto;
+  margin-right:  auto;
+  margin-left: 60px;
 }
