@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IConstructorState } from '@utils-types';
+import { v4 as makeUniqueId } from 'uuid';
 
 const initialState: IConstructorState = {
   constructorItems: {
@@ -16,12 +17,12 @@ export const constructorSlice = createSlice({
       if (action.payload.type === 'bun') {
         state.constructorItems.bun = {
           ...action.payload,
-          id: String(Date.now())
+          id: makeUniqueId()
         };
       } else {
         state.constructorItems.ingredients.push({
           ...action.payload,
-          id: String(Date.now())
+          id: makeUniqueId()
         });
       }
     },
