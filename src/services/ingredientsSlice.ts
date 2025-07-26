@@ -13,7 +13,7 @@ export const fetchIngredients = createAsyncThunk(
   getIngredientsApi
 );
 
-const ingredientsSlice = createSlice({
+export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {},

@@ -1,10 +1,10 @@
-import { useSelector } from '../../services/store';
+import { selectUserData, useSelector } from '../../services/store';
 import { Preloader } from '@ui';
 import { Navigate, useLocation } from 'react-router';
 import { IProtectedRouteProps } from './type';
 
 export function ProtectedRoute({ onlyUnAuth, children }: IProtectedRouteProps) {
-  const userData = useSelector((state) => state.userReducer);
+  const userData = useSelector(selectUserData);
   const location = useLocation();
 
   if (!userData.isAuth) {
