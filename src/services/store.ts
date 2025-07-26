@@ -11,7 +11,7 @@ import { userReducer } from './userSlice';
 import { orderReducer } from './ordersSlice';
 import { feedReducer } from './feedSlice';
 
-export const rootReducer = combineReducers({
+const rootReducer = combineReducers({
   ingredientsReducer,
   constructorReducer,
   userReducer,
@@ -31,3 +31,5 @@ export const useDispatch: () => AppDispatch = () => dispatchHook();
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
 
 export default store;
+
+export const selectUserData = (state: RootState) => state.userReducer;

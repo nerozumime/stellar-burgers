@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { IConstructorState } from '@utils-types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IConstructorState, TIngredient } from '@utils-types';
 import { v4 as makeUniqueId } from 'uuid';
 
 const initialState: IConstructorState = {
@@ -13,17 +13,30 @@ export const constructorSlice = createSlice({
   name: 'constructor',
   initialState,
   reducers: {
-    addIngredient: (state, action) => {
-      if (action.payload.type === 'bun') {
-        state.constructorItems.bun = {
-          ...action.payload,
-          id: makeUniqueId()
-        };
-      } else {
-        state.constructorItems.ingredients.push({
-          ...action.payload,
-          id: makeUniqueId()
-        });
+    // addIngredient: (state, action) => {
+    //   if (action.payload.type === 'bun') {
+    //     state.constructorItems.bun = {
+    //       ...action.payload,
+    //       id: makeUniqueId()
+    //     };
+    //   } else {
+    //     state.constructorItems.ingredients.push({
+    //       ...action.payload,
+    //       id: makeUniqueId()
+    //     });
+    //   }
+    // },
+    addIngredient: {
+      reducer: (state, action: PayloadAction<TIngredient & { id: string }>) => {
+        if (action.payload.type === 'bun') {
+          state.constructorItems.bun = action.payload;
+        } else {
+          state.constructorItems.ingredients.push(action.payload);
+        }
+      },
+      prepare: (ingredient: TIngredient) => {
+        const id = makeUniqueId();
+        return { payload: { ...ingredient, id } };
       }
     },
 
