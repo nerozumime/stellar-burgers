@@ -11,7 +11,7 @@ import { userReducer } from './userSlice';
 import { orderReducer } from './ordersSlice';
 import { feedReducer } from './feedSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   ingredientsReducer,
   constructorReducer,
   userReducer,
@@ -23,6 +23,8 @@ const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });
+
+console.log(rootReducer(undefined, { type: 'UNKNOWN_ACTION' }));
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

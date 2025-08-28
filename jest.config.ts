@@ -5,9 +5,13 @@
 
 import type { JestConfigWithTsJest } from 'ts-jest';
 
-const config: JestConfigWithTsJest  = {
+const config: JestConfigWithTsJest = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
+  moduleNameMapper: {
+    '^@api$': '<rootDir>/src/utils/burger-api.ts'
+    // добавьте другие алиасы по необходимости
+  },
   transform: {
     // '^.+\\.[tj]sx?$' для обработки файлов js/ts с помощью `ts-jest`
     // '^.+\\.m?[tj]sx?$' для обработки файлов js/ts/mjs/mts с помощью `ts-jest`
@@ -15,8 +19,8 @@ const config: JestConfigWithTsJest  = {
       'ts-jest',
       {
         // настройки для ts-jest
-      },
-    ],
+      }
+    ]
   },
 
   // Stop running tests after `n` failures
@@ -35,7 +39,7 @@ const config: JestConfigWithTsJest  = {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",
+  coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -43,7 +47,7 @@ const config: JestConfigWithTsJest  = {
   // ],
 
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: "v8",
+  coverageProvider: 'v8',
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
@@ -114,7 +118,7 @@ const config: JestConfigWithTsJest  = {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: 'ts-jest',
+  preset: 'ts-jest'
 
   // Run tests from one or more projects
   // projects: undefined,
