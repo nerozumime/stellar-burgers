@@ -9,8 +9,8 @@ const config: JestConfigWithTsJest = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
   moduleNameMapper: {
-    '^@api$': '<rootDir>/src/utils/burger-api.ts'
-    // добавьте другие алиасы по необходимости
+    '^@api$': '<rootDir>/src/utils/burger-api.ts',
+    '^@cookie$': '<rootDir>/src/utils/cookie.ts'
   },
   transformIgnorePatterns: [
     'node_modules/(?!(.*\\.js)$)' // преобразовывать все .js файлы
