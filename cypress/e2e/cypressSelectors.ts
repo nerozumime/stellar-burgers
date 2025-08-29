@@ -3,7 +3,8 @@ export const selectors = {
   burgerConstructor: 'burger-constructor',
   modal: 'modal',
   modalOverlay: 'modal-overlay',
-  addButton: 'add-button'
+  addButton: 'add-button',
+  closeButton: 'close-button'
 };
 
 export const dataSelectors = {
@@ -11,5 +12,6 @@ export const dataSelectors = {
   burgerConstructor: `[data-cy=${selectors.burgerConstructor}]`,
   modal: `[data-cy=${selectors.modal}]`,
   modalOverlay: `[data-cy=${selectors.modalOverlay}]`,
-  addButton: `[data-cy=${selectors.addButton}]`
+  addButton: `[data-cy=${selectors.addButton}]`,
+  closeButton: `[data-cy=${selectors.closeButton}]`
 };

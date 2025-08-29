@@ -9,32 +9,39 @@ const ingredients = {
   sauce: 'Соус Spicy-X'
 };
 
-const PORT = '4000'; // для тестов укажите свой порт
-
-function eventAddIngredient(ingredient: string) {
+Cypress.Commands.add('addIngredient', (ingredient: string) => {
   cy.contains(ingredient).parent().find('button').click();
-}
+});
 
-function constructorContainsIngredients(ingredients: string[]) {
+Cypress.Commands.add('containsIngredients', (ingredients: string[]) => {
   ingredients.forEach((ingredient) => {
     cy.get(dataSelectors.burgerConstructor).contains(ingredient);
   });
-}
+});
 
-function openIngredientModal(ingredient: string) {
+Cypress.Commands.add('makeBurger', (ingredients: string[]) => {
+  ingredients.forEach((ingredient) => {
+    cy.addIngredient(ingredient);
+  });
+});
+
+Cypress.Commands.add('openIngredientModal', (ingredient: string) => {
   cy.contains(ingredient).click();
-}
+});
 
-function closeModal(method: 'button' | 'overlay' = 'button') {
-  method === 'button'
-    ? cy.get(dataSelectors.modal).find('button').click()
-    : cy.get(dataSelectors.modalOverlay).click({ force: true });
-}
+Cypress.Commands.add(
+  'closeModal',
+  (method: 'button' | 'overlay' = 'button') => {
+    method === 'button'
+      ? cy.get(dataSelectors.modal).find(dataSelectors.closeButton).click()
+      : cy.get(dataSelectors.modalOverlay).click({ force: true });
+  }
+);
 
-function isConstructorEmpty() {
+Cypress.Commands.add('isConstructorEmpty', () => {
   cy.contains('Выберите булки');
   cy.contains('Выберите начинку');
-}
+});
 
 beforeEach(() => {
   cy.viewport(1920, 1080);
@@ -42,7 +49,7 @@ beforeEach(() => {
   cy.intercept('api/auth/user', JSON.stringify(userData));
   localStorage.setItem('refreshToken', 'refreshToken');
   cy.setCookie('accessToken', 'accessToken');
-  cy.visit(`http://localhost:${PORT}/`);
+  cy.visit(`/`);
 });
 
 afterEach(() => {
@@ -52,43 +59,40 @@ afterEach(() => {
 
 describe('Cypress: тесты [burgerConstructor]', () => {
   it('Добавление ингредиента из списка ингредиентов в конструктор', () => {
-    eventAddIngredient(ingredients.bun);
-    constructorContainsIngredients([ingredients.bun]);
-    eventAddIngredient(ingredients.main);
-    eventAddIngredient(ingredients.sauce);
-    constructorContainsIngredients(Object.values(ingredients));
+    cy.addIngredient(ingredients.bun);
+    cy.containsIngredients([ingredients.bun]);
+    cy.addIngredient(ingredients.main);
+    cy.addIngredient(ingredients.sauce);
+    cy.containsIngredients(Object.values(ingredients));
   });
 
   it('Открытие и закрытие модального окна с описанием ингредиента, закрытие кнопкой', () => {
-    openIngredientModal(ingredients.bun);
-    cy.get(dataSelectors.modal);
-    closeModal('button');
-    cy.get(dataSelectors.modal).should('not.exist');
+    cy.openIngredientModal(ingredients.bun);
+    cy.get(dataSelectors.modal).as('modal');
+    cy.closeModal('button');
+    cy.get('@modal').should('not.exist');
   });
 
   it('Открытие и закрытие модального окна с описанием ингредиента, закрытие оверлеем', () => {
-    openIngredientModal(ingredients.bun);
-    closeModal('overlay');
+    cy.openIngredientModal(ingredients.bun);
+    cy.closeModal('overlay');
     cy.get(dataSelectors.modal).should('not.exist');
   });
 
   it('Отображение в открытом модальном окне данных именно того ингредиента, по которому произошел клик', () => {
-    openIngredientModal(ingredients.bun);
+    cy.openIngredientModal(ingredients.bun);
     cy.get(dataSelectors.modal).contains(ingredients.bun);
-    closeModal('overlay');
+    cy.closeModal('overlay');
   });
 
   it('Процесс создания заказа', () => {
-    eventAddIngredient(ingredients.bun);
-    eventAddIngredient(ingredients.main);
-    eventAddIngredient(ingredients.sauce);
-    constructorContainsIngredients(Object.values(ingredients));
-
+    cy.makeBurger(Object.values(ingredients));
+    cy.containsIngredients(Object.values(ingredients));
     cy.intercept('POST', 'api/orders', JSON.stringify(orderData));
     cy.contains('Оформить заказ').click();
-    cy.get(dataSelectors.modal).contains(orderData.order.number);
-    closeModal();
-    cy.get(dataSelectors.modal).should('not.exist');
-    isConstructorEmpty();
+    cy.get(dataSelectors.modal).as('modal').contains(orderData.order.number);
+    cy.closeModal();
+    cy.get('@modal').should('not.exist');
+    cy.isConstructorEmpty();
   });
 });
