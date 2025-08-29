@@ -10,7 +10,7 @@ import { constructorInitialState } from '../fixture/reducersStates';
 import { ingredients } from '../fixture/ingredients';
 
 describe('constructorSlice', () => {
-  it('Добавление булки в конструктор бургера', () => {
+  test('Добавление булки в конструктор бургера', () => {
     const constructorState = constructorReducer(
       constructorInitialState,
       addIngredient(ingredients[0])
@@ -21,7 +21,7 @@ describe('constructorSlice', () => {
     });
   });
 
-  it('Добавление ингредиентов в конструктор бургера', () => {
+  test('Добавление ингредиентов в конструктор бургера', () => {
     const constructorState = constructorReducer(
       constructorInitialState,
       addIngredient(ingredients[1])
@@ -41,7 +41,7 @@ describe('constructorSlice', () => {
     );
   });
 
-  it('Удаление булки из конструктора бургера должно быть невозможно', () => {
+  test('Удаление булки из конструктора бургера должно быть невозможно', () => {
     const constructorState = constructorReducer(
       {
         constructorItems: {
@@ -54,7 +54,7 @@ describe('constructorSlice', () => {
     expect(constructorState.constructorItems.bun).not.toBeNull();
   });
 
-  it('Удаление ингредиента из конструктора бургера', () => {
+  test('Удаление ингредиента из конструктора бургера', () => {
     const constructorState = constructorReducer(
       {
         constructorItems: {
@@ -67,7 +67,7 @@ describe('constructorSlice', () => {
     expect(constructorState.constructorItems.ingredients.length).toBe(0);
   });
 
-  it('Очистка конструктора бургера, удаление всех ингредиентов', () => {
+  test('Очистка конструктора бургера, удаление всех ингредиентов', () => {
     const state = {
       constructorItems: {
         bun: { ...ingredients[0], id: '1' },
@@ -82,7 +82,7 @@ describe('constructorSlice', () => {
     expect(constructorState.constructorItems.ingredients).toHaveLength(0);
   });
 
-  it('Перемещение ингредиента вверх', () => {
+  test('Перемещение ингредиента вверх', () => {
     const state = {
       constructorItems: {
         bun: null,
@@ -97,7 +97,7 @@ describe('constructorSlice', () => {
     expect(constructorState.constructorItems.ingredients[1].id).toBe('2');
   });
 
-  it('Перемещение ингредиента вниз', () => {
+  test('Перемещение ингредиента вниз', () => {
     const state = {
       constructorItems: {
         bun: null,
