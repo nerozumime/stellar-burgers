@@ -20,8 +20,8 @@ export const fetchFeeds = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       return await getFeedsApi();
-    } catch (_) {
-      return rejectWithValue('Ошибка получения данных ленты');
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Ошибка получения заказов');
     }
   }
 );
@@ -38,9 +38,9 @@ export const feedSlice = createSlice({
       })
       .addCase(fetchFeeds.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.orders = action.payload.orders;
-        state.totalOrders = action.payload.total;
-        state.ordersToday = action.payload.totalToday;
+        state.orders = action.payload?.orders;
+        state.totalOrders = action.payload?.total;
+        state.ordersToday = action.payload?.totalToday;
         state.error = null;
       })
       .addCase(fetchFeeds.rejected, (state, action) => {

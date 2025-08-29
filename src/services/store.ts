@@ -24,8 +24,6 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production'
 });
 
-console.log(rootReducer(undefined, { type: 'UNKNOWN_ACTION' }));
-
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
 
