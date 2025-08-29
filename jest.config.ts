@@ -12,18 +12,24 @@ const config: JestConfigWithTsJest = {
     '^@api$': '<rootDir>/src/utils/burger-api.ts'
     // добавьте другие алиасы по необходимости
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(.*\\.js)$)' // преобразовывать все .js файлы
+  ],
   transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest'
+  },
+
+  /*transform: {
     // '^.+\\.[tj]sx?$' для обработки файлов js/ts с помощью `ts-jest`
     // '^.+\\.m?[tj]sx?$' для обработки файлов js/ts/mjs/mts с помощью `ts-jest`
+
     '^.+\\.tsx?$': [
       'ts-jest',
       {
         // настройки для ts-jest
       }
     ]
-  },
-
-  // Stop running tests after `n` failures
+  }*/ // Stop running tests after `n` failures
   // bail: 0,
 
   // The directory where Jest should store its cached dependency information
