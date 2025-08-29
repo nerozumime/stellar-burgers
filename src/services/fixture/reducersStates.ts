@@ -35,3 +35,11 @@ export const feedInitialState = {
   isLoading: false,
   error: null
 };
+
+export const rootInitialState = {
+  ingredientsInitialState,
+  orderInitialState,
+  feedInitialState,
+  constructorInitialState,
+  userInitialState
+};
