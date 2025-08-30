@@ -13,8 +13,7 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
 
 export const FeedInfo: FC = () => {
   const orders = useSelector((state) => state.feedReducer.orders);
-  const feed = useSelector((state) => selectOrders(state));
-
+  const feed = useSelector(selectOrders);
   const readyOrders = getOrders(orders, 'done');
   const pendingOrders = getOrders(orders, 'pending');
 

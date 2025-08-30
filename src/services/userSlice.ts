@@ -91,7 +91,7 @@ export const logOutUser = createAsyncThunk(
       deleteCookie('accessToken');
       dispatch(userLogout());
     } catch (e) {
-      console.log(`Ошибка выхода: ${e}`, e);
+      console.log(`Ошибка выхода: ${e}`);
     }
   }
 );

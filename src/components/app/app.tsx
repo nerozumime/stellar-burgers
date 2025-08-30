@@ -25,7 +25,6 @@ import { parseOrderNumber } from '@api';
 const App = () => {
   const location = useLocation();
   const background = location.state?.background;
-  console.log(location);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const orderNumber = `Заказ номер: #${parseOrderNumber(location.pathname)}`;

@@ -25,7 +25,6 @@ export const BurgerConstructor: FC = () => {
 
     const orderId = [bun._id, ...ingredients.map((item) => item._id), bun._id];
     dispatch(createOrder(orderId)).then((status) => {
-      console.log(status);
       if (status.meta.requestStatus === 'fulfilled') {
         dispatch(removeAllIngredients());
       } else {
